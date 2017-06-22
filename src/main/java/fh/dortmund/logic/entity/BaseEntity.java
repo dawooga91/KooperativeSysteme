@@ -1,30 +1,22 @@
 package fh.dortmund.logic.entity;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * Basisentity mit Primarykey
+ * 
+ * @author breslauer_r
+ *
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lecture extends BaseEntity {
+public abstract class BaseEntity {
 
-	private String name;
-	private boolean open;
-	List<User> users;
-	int[] poll;
-
-	/**
-	 * Starte neue Umfrage
-	 * 
-	 */
-	public void restart() {
-		poll = new int[2];
-
-	}
+	private long oid;
 
 }
