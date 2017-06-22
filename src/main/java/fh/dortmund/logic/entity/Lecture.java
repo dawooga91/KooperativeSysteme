@@ -15,8 +15,9 @@ public class Lecture extends BaseEntity {
 
 	private String name;
 	private boolean open;
-	List<User> users;
 	int[] poll;
+	private User admin;
+	List<User> users;
 
 	/**
 	 * Starte neue Umfrage
@@ -24,6 +25,16 @@ public class Lecture extends BaseEntity {
 	 */
 	public void restart() {
 		poll = new int[2];
+
+	}
+
+	public void leaveUser(User u) {
+		for (User user : users) {
+			if (u.getOid() == user.getOid()) {
+				users.remove(user);
+				return;
+			}
+		}
 
 	}
 

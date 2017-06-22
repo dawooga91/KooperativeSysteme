@@ -18,6 +18,22 @@ public class LectureManager {
 		lecturesList = new ArrayList<>();
 	}
 
+	/**
+	 * Erstellt eine neue Vorlesung
+	 * 
+	 * @param name
+	 *            der Vorlesung
+	 */
+	public void createLecture(String name, User u) {
+
+		Lecture lecture = new Lecture();
+		lecture.setName(name);
+		User admin = usermanager.getUserByOid(u);
+		lecture.setAdmin(admin);
+
+		lecturesList.add(lecture);
+	}
+
 	public List<Lecture> getLectureList() {
 		return lecturesList;
 	}
@@ -43,10 +59,14 @@ public class LectureManager {
 	 * 
 	 * @param name
 	 */
-	public Lecture closePoll(Lecture lec) {
+	public Lecture closePoll(Lecture lec, User u) {
 		Lecture lecture = getLectureByOID(lec);
-		lecture.setOpen(false);
-		return lecture;
+
+		if (u.getOid() == lecture.getAdmin().getOid()) {
+			lecture.setOpen(false);
+			return lecture;
+		}
+		return null;
 	}
 
 	/**
@@ -55,9 +75,13 @@ public class LectureManager {
 	 * @param lecture
 	 *            der Vorlesung
 	 */
-	public void newPoll(Lecture lecture) {
-
-		lecture.restart();
+	public Lecture newPoll(Lecture lecture, User u) {
+		Lecture lectureDB = getLectureByOID(lecture);
+		if (u.getOid() == lecture.getAdmin().getOid()) {
+			lecture.restart();
+			return lectureDB;
+		}
+		return null;
 	}
 
 	/**
@@ -65,7 +89,7 @@ public class LectureManager {
 	 * 
 	 * @param lec
 	 */
-	public Lecture closeLecture(Lecture lec) {
+	private Lecture closeLecture(Lecture lec) {
 
 		Lecture lecture = getLectureByOID(lec);
 		if (lecture != null) {
@@ -74,20 +98,6 @@ public class LectureManager {
 		}
 		return null;
 
-	}
-
-	/**
-	 * Erstellt eine neue Vorlesung
-	 * 
-	 * @param name
-	 *            der Vorlesung
-	 */
-	public void newLecture(String name) {
-
-		Lecture lecture = new Lecture();
-		lecture.setName(name);
-
-		lecturesList.add(lecture);
 	}
 
 	/**
@@ -135,5 +145,24 @@ public class LectureManager {
 		}
 
 		return joinedLecture;
+	}
+
+	/**
+	 * Benutzer verlässt die Vorlesung. Falls der Admin die Vorlesung verlässt,
+	 * wird diese gelöscht.
+	 * 
+	 * @param lecture
+	 * @param user
+	 * @return
+	 */
+	public Lecture leaveLecture(Lecture lecture, User user) {
+		Lecture lectureDB = getLectureByOID(lecture);
+		if (user.getOid() == lectureDB.getAdmin().getOid())
+			closeLecture(lectureDB);
+		else
+			lectureDB.leaveUser(user);
+
+		return null;
+
 	}
 }
