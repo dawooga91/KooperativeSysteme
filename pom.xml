@@ -35,21 +35,32 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.restdocs</groupId>
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-solr</artifactId>
 		</dependency>
+		
 		<!-- Lombok -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-archetype-application -->
+		<dependency>
+   		 	<groupId>com.vaadin</groupId>
+    	 	<artifactId>vaadin-archetype-application</artifactId>
+    	 	<version>8.0.6</version>
+		 </dependency>
+		
 	</dependencies>
 
 	<build>
