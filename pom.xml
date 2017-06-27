@@ -6,7 +6,7 @@
 	<groupId>fh.dortmund</groupId>
 	<artifactId>DYU</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>DYU</name>
 	<description>Koop</description>
