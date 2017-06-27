@@ -15,12 +15,15 @@ public class Lecture extends BaseEntity {
 
 	private String name;
 	private boolean open;
+	/**
+	 * Pos 1 Ja Pos 2 Nein
+	 */
 	int[] poll;
 	private User admin;
 	List<User> users;
 
 	/**
-	 * Starte neue Umfrage
+	 * Starte eine neue Umfrage
 	 * 
 	 */
 	public void restart() {
