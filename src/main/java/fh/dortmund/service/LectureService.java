@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fh.dortmund.logic.LectureManager;
 import fh.dortmund.logic.entity.Lecture;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
-@RequestMapping(path = BASE_PATH + "/Lecture")
+@RequestMapping(path = BASE_PATH + "/lecture")
 public class LectureService {
 
 	@Autowired
@@ -60,6 +62,12 @@ public class LectureService {
 	public int[] getPoll(@PathVariable("oid") long oid) {
 		Lecture selectedLecture = lectureManager.getLectureByOid(oid);
 		return selectedLecture.getPoll();
+	}
+
+	@RequestMapping(path = "/create", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Lecture saveLecture(@RequestBody Lecture lecture) {
+		log.info("POST Lecture '{}'", lecture);
+		return lectureManager.create(lecture);
 	}
 
 }

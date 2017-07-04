@@ -56,4 +56,9 @@ public class LectureManager {
 		return lectureByOid;
 	}
 
+	public Lecture create(Lecture lecture) {
+		lecturesList.add(lecture);
+		return lecture;
+	}
+
 }
