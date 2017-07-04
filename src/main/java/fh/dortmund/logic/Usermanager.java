@@ -1,5 +1,6 @@
 package fh.dortmund.logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -11,8 +12,13 @@ public class Usermanager {
 
 	private List<User> userlist;
 
-	public void join(User u) {
+	public Usermanager() {
+		this.userlist = new ArrayList<>();
+	}
+
+	public User join(User u) {
 		userlist.add(u);
+		return u;
 	}
 
 	public void leave(User u) {

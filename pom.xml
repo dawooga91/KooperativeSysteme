@@ -53,9 +53,14 @@
 			<artifactId>lombok</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
-		
-		
+
+
+
+		<dependency>
+			<groupId>net.shibboleth.utilities</groupId>
+			<artifactId>java-support</artifactId>
+			<version>7.1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
