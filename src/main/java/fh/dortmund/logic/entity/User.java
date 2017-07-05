@@ -11,4 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class User extends BaseEntity {
 	private String name;
+	private int countYes;
+	private int countNo;
+	private boolean open;
 }
