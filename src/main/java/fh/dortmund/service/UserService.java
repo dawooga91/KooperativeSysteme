@@ -20,7 +20,7 @@ public class UserService {
 	Usermanager usermanager;
 
 	@RequestMapping(path = "/create", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public User saveCategory(@RequestBody User user) {
+	public User saveUser(@RequestBody User user) {
 		log.info("POST User '{}'", user);
 		return usermanager.join(user);
 	}
