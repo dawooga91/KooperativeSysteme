@@ -44,8 +44,13 @@ public class LectureService {
 	}
 
 	@RequestMapping(path = "/vote/true/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Lecture vote(@PathVariable("oid") long oid) {
+	public Lecture voteTrue(@PathVariable("oid") long oid) {
 		return lectureManager.vote(oid, true);
+
+	}
+	@RequestMapping(path = "/vote/false/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Lecture voteFalse(@PathVariable("oid") long oid) {
+		return lectureManager.vote(oid, false);
 
 	}
 
