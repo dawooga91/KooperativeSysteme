@@ -30,7 +30,7 @@ public class LectureService {
 		return lectureList;
 	}
 
-	@RequestMapping(path = "/{name}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "/{oid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture getLectureByOid(@PathVariable("oid") long oid) {
 		Lecture lecture = lectureManager.getLectureByOid(oid);
 		return lecture;
@@ -43,9 +43,9 @@ public class LectureService {
 
 	}
 
-	@RequestMapping(path = "/poll/{vote}/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Lecture voteYES(@PathVariable("oid") long oid, @PathVariable("vote") boolean vote) {
-		return lectureManager.vote(oid, vote);
+	@RequestMapping(path = "/vote/true/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Lecture vote(@PathVariable("oid") long oid) {
+		return lectureManager.vote(oid, true);
 
 	}
 

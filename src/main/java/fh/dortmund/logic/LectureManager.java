@@ -12,9 +12,11 @@ public class LectureManager {
 
 	private List<Lecture> lecturesList;
 	private Usermanager usermanager;
+	private static long oidCounter=1;
 
 	public LectureManager() {
 		lecturesList = new ArrayList<>();
+		
 	}
 
 	public List<Lecture> getLectureList() {
@@ -41,6 +43,8 @@ public class LectureManager {
 		Lecture voteLec = getLectureByOid(oid);
 
 		int[] poll = voteLec.getPoll();
+		if(poll==null)
+			poll= new int[2];
 		if (vote) {
 			poll[0] += 1;
 		} else
@@ -57,6 +61,8 @@ public class LectureManager {
 	}
 
 	public Lecture create(Lecture lecture) {
+		lecture.setOid(oidCounter);
+		oidCounter+=1;
 		lecturesList.add(lecture);
 		return lecture;
 	}
