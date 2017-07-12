@@ -15,12 +15,13 @@ public class Lecture extends BaseEntity {
 
 	private String name;
 	private boolean open;
+	List<User> users;
+	private User admin;
+	
 	/**
 	 * Pos 1 Ja Pos 2 Nein
 	 */
 	int[] poll;
-	private User admin;
-	List<User> users;
 
 	/**
 	 * Starte eine neue Umfrage
