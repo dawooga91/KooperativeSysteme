@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import fh.dortmund.logic.LectureManager;
+import fh.dortmund.logic.Usermanager;
 import fh.dortmund.logic.entity.Lecture;
+import fh.dortmund.logic.entity.User;
+import fh.dortmund.logic.exception.LectureNotFoundException;
+import fh.dortmund.logic.exception.UserException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -23,6 +27,8 @@ public class LectureService {
 
 	@Autowired
 	private LectureManager lectureManager;
+	@Autowired
+	Usermanager usermanager;
 
 	@RequestMapping(path = "/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Lecture> getALLLectures() {
@@ -32,41 +38,75 @@ public class LectureService {
 
 	@RequestMapping(path = "/{oid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture getLectureByOid(@PathVariable("oid") long oid) {
-		Lecture lecture = lectureManager.getLectureByOid(oid);
-		return lecture;
+		Lecture lecture;
+		try {
+			lecture = lectureManager.getLectureByOid(oid);
+			return lecture;
+		} catch (LectureNotFoundException e) {
+			return null;
+
+		}
 	}
 
 	@RequestMapping(path = "/delete/{oid}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture removeLecture(@PathVariable("oid") long oid) {
 
-		return lectureManager.deleteLecture(oid);
+		try {
+			return lectureManager.deleteLecture(oid);
+		} catch (LectureNotFoundException e) {
+			log.error(e.getMessage());
+			return null;
+		}
 
 	}
 
 	@RequestMapping(path = "/vote/true/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture voteTrue(@PathVariable("oid") long oid) {
-		return lectureManager.vote(oid, true);
+		try {
+			return lectureManager.vote(oid, true);
+		} catch (LectureNotFoundException e) {
+			log.error(e.getMessage());
+		}
+		return null;
 
 	}
 	@RequestMapping(path = "/vote/false/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture voteFalse(@PathVariable("oid") long oid) {
-		return lectureManager.vote(oid, false);
+		try {
+			return lectureManager.vote(oid, false);
+		} catch (LectureNotFoundException e) {
+			log.error(e.getMessage());
+		}
+		return null;
 
 	}
 
 	@RequestMapping(path = "/poll/new/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public int[] startNewPoll(@RequestBody long oid) {
-		Lecture lecture = lectureManager.getLectureByOid(oid);
-		lectureManager.newPoll(oid);
+		Lecture lecture;
+		try {
+			lecture = lectureManager.getLectureByOid(oid);
+			lectureManager.newPoll(oid);
+			return lecture.getPoll();
+		} catch (LectureNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 
-		return lecture.getPoll();
 
 	}
 
 	@RequestMapping(path = "/poll/{oid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public int[] getPoll(@PathVariable("oid") long oid) {
-		Lecture selectedLecture = lectureManager.getLectureByOid(oid);
-		return selectedLecture.getPoll();
+		Lecture selectedLecture;
+		try {
+			selectedLecture = lectureManager.getLectureByOid(oid);
+			return selectedLecture.getPoll();
+		} catch (LectureNotFoundException e) {
+			log.error(e.getMessage());
+		}
+		return null;
 	}
 
 	@RequestMapping(path = "/create", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,5 +114,24 @@ public class LectureService {
 		log.info("POST Lecture '{}'", lecture);
 		return lectureManager.create(lecture);
 	}
-
+	
+	@RequestMapping(path="/join/{userOid}/{lecOid}",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Lecture join(@PathVariable("userOid") long userOid,@PathVariable("lecOid") long lecOid)
+	{
+		Lecture lectureToJoin=null;
+		try{
+			 lectureToJoin = lectureManager.getLectureByOid(lecOid);
+		User userJoin = usermanager.getUserByOid(userOid);
+			lectureToJoin.join(userJoin);
+		} catch (UserException e) {
+			log.error(e.getMessage());		
+		} catch (LectureNotFoundException e) {
+			log.error(e.getMessage());
+		}
+		
+		return lectureToJoin;
+		
+	
+	}
+	
 }

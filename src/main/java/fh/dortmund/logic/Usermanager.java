@@ -25,9 +25,10 @@ public class Usermanager {
 		userlist.remove(u);
 	}
 
-	public User getUserByOid(User u) {
+	public User getUserByOid(long oid) {
+		
 		for (User user : userlist) {
-			if (u.getOid() == user.getOid()) {
+			if (oid == user.getOid()) {
 				return user;
 			}
 		}

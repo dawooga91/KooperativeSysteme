@@ -1,7 +1,9 @@
 package fh.dortmund.logic.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import fh.dortmund.logic.exception.UserException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,6 +42,16 @@ public class Lecture extends BaseEntity {
 			}
 		}
 
+	}
+	
+	public void join(User user) throws UserException
+	{
+		if (users==null) {
+			users= new ArrayList<>();
+		}
+		if(user!=null)
+			users.add(user);
+		else throw new UserException("User= null");
 	}
 
 }
