@@ -48,14 +48,13 @@ public class LectureService {
 		}
 	}
 
-	@RequestMapping(path = "/delete/{oid}", method = RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Lecture removeLecture(@PathVariable("oid") long oid) {
-
+	@RequestMapping(path = "/delete/{oid}", method = RequestMethod.DELETE)
+	public void removeLecture(@PathVariable("oid") long oid) {
+		log.info(Long.toString(oid));
 		try {
-			return lectureManager.deleteLecture(oid);
+			lectureManager.deleteLecture(oid);
 		} catch (LectureNotFoundException e) {
 			log.error(e.getMessage());
-			return null;
 		}
 
 	}
@@ -70,6 +69,7 @@ public class LectureService {
 		return null;
 
 	}
+
 	@RequestMapping(path = "/vote/false/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Lecture voteFalse(@PathVariable("oid") long oid) {
 		try {
@@ -94,7 +94,6 @@ public class LectureService {
 		}
 		return null;
 
-
 	}
 
 	@RequestMapping(path = "/poll/{oid}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -114,24 +113,22 @@ public class LectureService {
 		log.info("POST Lecture '{}'", lecture);
 		return lectureManager.create(lecture);
 	}
-	
-	@RequestMapping(path="/join/{userOid}/{lecOid}",method=RequestMethod.PUT,consumes=MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Lecture join(@PathVariable("userOid") long userOid,@PathVariable("lecOid") long lecOid)
-	{
-		Lecture lectureToJoin=null;
-		try{
-			 lectureToJoin = lectureManager.getLectureByOid(lecOid);
-		User userJoin = usermanager.getUserByOid(userOid);
+
+	@RequestMapping(path = "/join/{userOid}/{lecOid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Lecture join(@PathVariable("userOid") long userOid, @PathVariable("lecOid") long lecOid) {
+		Lecture lectureToJoin = null;
+		try {
+			lectureToJoin = lectureManager.getLectureByOid(lecOid);
+			User userJoin = usermanager.getUserByOid(userOid);
 			lectureToJoin.join(userJoin);
 		} catch (UserException e) {
-			log.error(e.getMessage());		
+			log.error(e.getMessage());
 		} catch (LectureNotFoundException e) {
 			log.error(e.getMessage());
 		}
-		
+
 		return lectureToJoin;
-		
-	
+
 	}
-	
+
 }
