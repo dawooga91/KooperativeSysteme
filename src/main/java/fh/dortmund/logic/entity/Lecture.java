@@ -19,7 +19,7 @@ public class Lecture extends BaseEntity {
 	private boolean open;
 	List<User> users;
 	private User admin;
-	
+
 	/**
 	 * Pos 1 Ja Pos 2 Nein
 	 */
@@ -31,6 +31,7 @@ public class Lecture extends BaseEntity {
 	 */
 	public void restart() {
 		poll = new int[2];
+		open = true;
 
 	}
 
@@ -43,15 +44,15 @@ public class Lecture extends BaseEntity {
 		}
 
 	}
-	
-	public void join(User user) throws UserException
-	{
-		if (users==null) {
-			users= new ArrayList<>();
+
+	public void join(User user) throws UserException {
+		if (users == null) {
+			users = new ArrayList<>();
 		}
-		if(user!=null)
+		if (user != null)
 			users.add(user);
-		else throw new UserException("User= null");
+		else
+			throw new UserException("User= null");
 	}
 
 }

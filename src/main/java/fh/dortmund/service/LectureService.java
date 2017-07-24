@@ -82,12 +82,12 @@ public class LectureService {
 	}
 
 	@RequestMapping(path = "/poll/new/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public int[] startNewPoll(@RequestBody long oid) {
+	public Lecture startNewPoll(@PathVariable("oid") long oid) {
 		Lecture lecture;
 		try {
 			lecture = lectureManager.getLectureByOid(oid);
 			lectureManager.newPoll(oid);
-			return lecture.getPoll();
+			return lecture;
 		} catch (LectureNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -128,6 +128,13 @@ public class LectureService {
 		}
 
 		return lectureToJoin;
+
+	}
+
+	@RequestMapping(path = "close/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void closePoll(@PathVariable("oid") long oid) {
+		Lecture lectureByOid = getLectureByOid(oid);
+		lectureByOid.setOpen(false);
 
 	}
 

@@ -55,7 +55,6 @@ public class LectureManager {
 
 	public Lecture vote(long oid, boolean vote) throws LectureNotFoundException {
 		Lecture voteLec = getLectureByOid(oid);
-
 		int[] poll = voteLec.getPoll();
 		if (poll == null)
 			poll = new int[2];
@@ -65,6 +64,7 @@ public class LectureManager {
 			poll[1] += 1;
 
 		voteLec.setPoll(poll);
+		log.info("Recieved Vote {}", voteLec.getPoll());
 		return voteLec;
 	}
 
@@ -76,9 +76,12 @@ public class LectureManager {
 
 	public Lecture create(Lecture lecture) {
 		lecture.setOid(oidCounter);
+		lecture.setPoll(new int[2]);
+		lecture.setOpen(false);
 		oidCounter += 1;
 		lecturesList.add(lecture);
 		log.info(Long.toString(lecture.getOid()));
+
 		return lecture;
 	}
 
