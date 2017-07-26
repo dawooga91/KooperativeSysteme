@@ -131,11 +131,16 @@ public class LectureService {
 
 	}
 
-	@RequestMapping(path = "close/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path = "close/{oid}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void closePoll(@PathVariable("oid") long oid) {
 		Lecture lectureByOid = getLectureByOid(oid);
 		lectureByOid.setOpen(false);
 
 	}
 
+	@RequestMapping(path = "question/{oid}/{question}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void askQuestion(@PathVariable("oid") long oid, @PathVariable("question") String question) {
+
+		lectureManager.setQuestion(oid, question);
+	}
 }

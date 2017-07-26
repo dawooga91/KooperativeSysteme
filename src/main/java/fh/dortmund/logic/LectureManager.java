@@ -75,6 +75,8 @@ public class LectureManager {
 	}
 
 	public Lecture create(Lecture lecture) {
+
+		lecture.setQuestion("Noch keine Frage");
 		lecture.setOid(oidCounter);
 		lecture.setPoll(new int[2]);
 		lecture.setOpen(false);
@@ -93,4 +95,15 @@ public class LectureManager {
 			log.error(e.getMessage());
 		}
 	}
+
+	public void setQuestion(Long oid, String question) {
+		try {
+			Lecture lectureByOid = getLectureByOid(oid);
+			lectureByOid.setQuestion(question);
+		} catch (LectureNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }

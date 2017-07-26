@@ -19,6 +19,7 @@ public class Lecture extends BaseEntity {
 	private boolean open;
 	List<User> users;
 	private User admin;
+	private String question;
 
 	/**
 	 * Pos 1 Ja Pos 2 Nein
